@@ -12,7 +12,7 @@ const { Storage } = require('@google-cloud/storage');
 //     projectId: serviceAccount.project_id,
 //     credentials: serviceAccount,
 // });
-
+const projectId = process.env.GOOGLE_CLOUD_PROJECT_ID;
 async function authenticateImplicitWithAdc() {
     // This snippet demonstrates how to list buckets.
     // NOTE: Replace the client created below with the client required for your application.
