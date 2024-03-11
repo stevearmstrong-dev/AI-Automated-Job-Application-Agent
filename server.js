@@ -25,7 +25,7 @@ app.post('/upload', upload.single('resume'), (req, res) => {
     // You can access the file using req.file
     console.log(req.file);
 
-    res.send('File uploaded successfully.');
+    res.redirect('https://stevearmstrong.org/upload-success');
 });
 
 app.listen(port, () => {

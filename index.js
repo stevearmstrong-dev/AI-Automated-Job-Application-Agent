@@ -21,7 +21,31 @@ document.getElementById('applicationForm').addEventListener('submit', function(e
         return;
     }
 
-    // Here, you would typically send the data to your server for processing
-    console.log('Form submitted!', { resume, experience, jobsPerDay });
-    alert('Form submitted successfully!');
+    // Create a FormData object and append the files and other data
+    let formData = new FormData();
+    formData.append('resume', resume);
+    formData.append('experience', experience);
+    formData.append('jobsPerDay', jobsPerDay);
+
+      // Send the form data to the server using the fetch API
+      fetch('/upload', { // Use the correct endpoint that you have configured on your server
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.text(); // or `response.json()` if your server sends back JSON
+    })
+    .then(data => {
+        // Handle the response data from the server here
+        // For example, redirect to a new page or show success message
+        window.location.href = 'https://stevearmstrong.org/upload-success'; // Redirect the user after successful upload
+    })
+    .catch(error => {
+        // Handle any errors here
+        console.error('There has been a problem with your fetch operation:', error);
+        alert('Failed to upload the resume.');
+    });
 });
