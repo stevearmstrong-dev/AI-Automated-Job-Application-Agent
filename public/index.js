@@ -1,7 +1,6 @@
 document.getElementById('applicationForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevents form from submitting in a traditional way
     
-    // Basic validation example
     const resume = document.getElementById('resume').files[0];
     const experience = document.getElementById('experience').value;
     const jobsPerDay = document.getElementById('jobsPerDay').value;
