@@ -28,7 +28,7 @@ document.getElementById('applicationForm').addEventListener('submit', function(e
     formData.append('jobsPerDay', jobsPerDay);
 
       // Send the form data to the server using the fetch API
-      fetch('/upload', { // Use the correct endpoint that you have configured on your server
+      fetch('/api/upload', { // Use the correct endpoint that you have configured on your server
         method: 'POST',
         body: formData
     })

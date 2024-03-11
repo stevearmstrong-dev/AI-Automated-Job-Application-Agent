@@ -1,12 +1,10 @@
-const express = require('express');
+// Inside /api/upload.js
 const multer = require('multer');
 const path = require('path');
 
-const app = express();
-const port = 3001;
-
 // Configure storage for multer
 const storage = multer.diskStorage({
+    // ... your existing configuration ...
     destination: function(req, file, cb) {
         cb(null, 'uploads/'); // Ensure this directory exists
     },
@@ -17,14 +15,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Serve static files from the "public" directory
-app.use(express.static('public'));
-
-// Route for file upload
-app.post('/upload', upload.single('resume'), (req, res) => {
-    // You can access the file using req.file
-    console.log(req.file);
-
-    res.redirect('https://stevearmstrong.org/upload-success');
-});
-
+module.exports = (req, res) => {
+    // Handle your upload here
+    upload.single('resume')(req, {}, err => {
+        if (err) {
+            return res.status(500).send('Upload error');
+        }
+        // Do something with `req.file`...
+        res.status(200).send('File uploaded successfully.');
+    });
+};
