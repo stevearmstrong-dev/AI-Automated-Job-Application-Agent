@@ -13,14 +13,27 @@ const { Storage } = require('@google-cloud/storage');
 //     credentials: serviceAccount,
 // });
 const projectId = process.env.GOOGLE_CLOUD_PROJECT_ID;
-
+const bucketName = process.env.GOOGLE_CLOUD_BUCKET_NAME;
+// async function authenticateImplicitWithAdc() {
+//     // This snippet demonstrates how to list buckets.
+//     // NOTE: Replace the client created below with the client required for your application.
+//     // Note that the credentials are not specified when constructing the client.
+//     // The client library finds your credentials using ADC.
     const storage = new Storage({
       projectId,
     });
-    const bucketName = 'resume-global'; 
-    const bucket = storage.bucket(bucketName);
-    
+//     const [buckets] = await storage.getBuckets();
+//     console.log('Buckets:');
   
+//     for (const bucket of buckets) {
+//       console.log(`- ${bucket.name}`);
+//     }
+  
+//     console.log('Listed all storage buckets.');
+//   }
+  
+//   authenticateImplicitWithAdc();
+
 const upload = multer({
     storage: multer.memoryStorage(),
     limits: {
@@ -41,6 +54,7 @@ module.exports = (req, res) => {
         console.log('File uploaded:', req.file);
         console.log('Form data:', req.body);
 
+        const bucket = storage.bucket(bucketName);
         const blob = bucket.file(Date.now() + path.extname(req.file.originalname));
         const blobStream = blob.createWriteStream();
 
