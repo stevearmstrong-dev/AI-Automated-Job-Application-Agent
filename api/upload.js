@@ -13,26 +13,14 @@ const { Storage } = require('@google-cloud/storage');
 //     credentials: serviceAccount,
 // });
 const projectId = process.env.GOOGLE_CLOUD_PROJECT_ID;
-async function authenticateImplicitWithAdc() {
-    // This snippet demonstrates how to list buckets.
-    // NOTE: Replace the client created below with the client required for your application.
-    // Note that the credentials are not specified when constructing the client.
-    // The client library finds your credentials using ADC.
+
     const storage = new Storage({
       projectId,
     });
-    const [buckets] = await storage.getBuckets();
-    console.log('Buckets:');
+    const bucketName = 'resume-global'; 
+    const bucket = storage.bucket(bucketName);
+    
   
-    for (const bucket of buckets) {
-      console.log(`- ${bucket.name}`);
-    }
-  
-    console.log('Listed all storage buckets.');
-  }
-  
-  authenticateImplicitWithAdc();
-
 const upload = multer({
     storage: multer.memoryStorage(),
     limits: {
