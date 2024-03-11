@@ -1,10 +1,9 @@
+require('dotenv').config();
 const multer = require('multer');
 const path = require('path');
 const { Storage } = require('@google-cloud/storage');
 
-const storage = new Storage({
-    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-});
+const storage = new Storage();
 
 
 const bucket = storage.bucket('resume-global');
