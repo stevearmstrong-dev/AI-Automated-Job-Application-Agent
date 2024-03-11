@@ -1,18 +1,19 @@
 const multer = require('multer');
 const path = require('path');
 const { Storage } = require('@google-cloud/storage');
-console.log('Environment Variable:', process.env.GOOGLE_CLOUD_CREDENTIALS_BASE64);
-if (!process.env.GOOGLE_CLOUD_CREDENTIALS_BASE64) {
-    throw new Error('GOOGLE_CLOUD_CREDENTIALS_BASE64 environment variable is not set.');
-  }  
-const decodedCredentials = Buffer.from(process.env.GOOGLE_CLOUD_CREDENTIALS_BASE64, 'base64').toString('ascii');
-const serviceAccount = JSON.parse(decodedCredentials);
+// console.log('Environment Variable:', process.env.GOOGLE_CLOUD_CREDENTIALS_BASE64);
+// if (!process.env.GOOGLE_CLOUD_CREDENTIALS_BASE64) {
+//     throw new Error('GOOGLE_CLOUD_CREDENTIALS_BASE64 environment variable is not set.');
+//   }  
+// const decodedCredentials = Buffer.from(process.env.GOOGLE_CLOUD_CREDENTIALS_BASE64, 'base64').toString('ascii');
+// const serviceAccount = JSON.parse(decodedCredentials);
 
-const storage = new Storage({
-    projectId: serviceAccount.project_id,
-    credentials: serviceAccount,
-});
+// const storage = new Storage({
+//     projectId: serviceAccount.project_id,
+//     credentials: serviceAccount,
+// });
 
+const storage = new Storage();
 const bucket = storage.bucket('resume-global');
 
 const upload = multer({
