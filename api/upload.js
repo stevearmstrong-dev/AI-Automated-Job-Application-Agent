@@ -2,7 +2,10 @@ require('dotenv').config();
 const multer = require('multer');
 const path = require('path');
 const { Storage } = require('@google-cloud/storage');
-
+console.log('Environment Variable:', process.env.GOOGLE_CLOUD_CREDENTIALS_BASE64);
+if (!process.env.GOOGLE_CLOUD_CREDENTIALS_BASE64) {
+    throw new Error('GOOGLE_CLOUD_CREDENTIALS_BASE64 environment variable is not set.');
+  }  
 const decodedCredentials = Buffer.from(process.env.GOOGLE_CLOUD_CREDENTIALS_BASE64, 'base64').toString('ascii');
 const serviceAccount = JSON.parse(decodedCredentials);
 
