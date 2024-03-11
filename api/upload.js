@@ -3,7 +3,13 @@ const multer = require('multer');
 const path = require('path');
 const { Storage } = require('@google-cloud/storage');
 
-const storage = new Storage();
+const decodedCredentials = Buffer.from(process.env.GOOGLE_CLOUD_CREDENTIALS_BASE64, 'base64').toString('ascii');
+const serviceAccount = JSON.parse(decodedCredentials);
+
+const storage = new Storage({
+    projectId: serviceAccount.project_id,
+    credentials: serviceAccount,
+});
 
 const bucket = storage.bucket('resume-global');
 
