@@ -39,9 +39,7 @@ document.getElementById('applicationForm').addEventListener('submit', function(e
         return response.text(); // or `response.json()` if your server sends back JSON
     })
     .then(data => {
-        // Handle the response data from the server here
-        // For example, redirect to a new page or show success message
-        window.location.href = 'https://stevearmstrong.org/upload-success'; // Redirect the user after successful upload
+        window.location.href = '/upload-success';
     })
     .catch(error => {
         // Handle any errors here
