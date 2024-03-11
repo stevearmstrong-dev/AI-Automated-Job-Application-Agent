@@ -1,16 +1,20 @@
 const multer = require('multer');
 const path = require('path');
+const { Storage } = require('@google-cloud/storage');
 
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, path.join(__dirname, '..', 'uploads'));
-    },
-    filename: function(req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
+const storage = new Storage({
+    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
 });
 
-const upload = multer({ storage: storage });
+
+const bucket = storage.bucket('resume-global');
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB limit
+    },
+});
 
 module.exports = (req, res) => {
     upload.single('resume')(req, res, (err) => {
@@ -25,6 +29,19 @@ module.exports = (req, res) => {
         console.log('File uploaded:', req.file);
         console.log('Form data:', req.body);
 
-        res.redirect('/upload-success');
+        const blob = bucket.file(Date.now() + path.extname(req.file.originalname));
+        const blobStream = blob.createWriteStream();
+
+        blobStream.on('error', (err) => {
+            console.error('Error uploading to Google Cloud Storage:', err);
+            res.status(500).send('Upload error');
+        });
+
+        blobStream.on('finish', () => {
+            console.log('File uploaded to Google Cloud Storage');
+            res.redirect('/upload-success');
+        });
+
+        blobStream.end(req.file.buffer);
     });
 };
